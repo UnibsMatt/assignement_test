@@ -9,7 +9,16 @@ account_api = Blueprint('api_routes', __name__)
 
 
 @account_api.route('/<name>', methods=['GET'])
-def step1(name: str):
+def step1(name: str) -> str:
+    """
+    Route for /name
+    Args:
+        name: the name used to invoke the api chain
+
+    Returns: html string
+
+    """
+
     pretty_out = []
     nazionalize = Nationalize()
     rest_country = RestCountry()

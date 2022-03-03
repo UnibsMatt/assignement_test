@@ -17,6 +17,11 @@ class DesiredOutput(BaseModel):
     country_name: str
 
     def to_string(self):
+        """
+        To string methods of the desired output as described above
+        Returns:
+
+        """
         if self.probability > .6:
             return f"{self.name} is mostly certain to be from {self.country_name}<br>"
         elif .3 <= self.probability <= .6:
@@ -26,6 +31,13 @@ class DesiredOutput(BaseModel):
 
 
 def prettify_content(desired_output_dict: List[DesiredOutput]) -> str:
+    """
+    Transform the desired output list to the request output
+    Args:
+        desired_output_dict:
+
+    Returns: str
+    """
     pretty_out = ""
     for d in desired_output_dict:
         pretty_out += d.to_string()

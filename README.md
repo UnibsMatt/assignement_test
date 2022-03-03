@@ -44,7 +44,15 @@ Opsss. Seems like you have no internet connection
 ```
 
 ## V1
-Run all test for the server 'On going'
+Run all test for the server. Can be done with the command:
+
+```bash
+run_test.cmd / run_test.sh
+```
+
+<i>Todo: mock response from server in order to check exit code and content if miss connection
+Add more test !!!
+</i>
 
 ## V2
 Add react front end to send the name through a nicer interface

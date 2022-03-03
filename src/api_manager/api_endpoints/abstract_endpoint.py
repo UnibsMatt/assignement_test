@@ -29,13 +29,23 @@ class ApiEndpoint(ABC):
 
         except ConnectionError as e:
             logging.warning(f"Connection error: {e}")
-            return Outputs(resp, str(e))
+            return Outputs(resp, "Opsss. Seems like you have no internet connection")
 
     @staticmethod
     def check_response(output: Outputs) -> dict:
+        """
+        Check responde based on outputs
+        Args:
+            output:
+
+        Returns: dict {"status" -> "content"}
+
+        """
+        # if not defined something went wrong
         if output.response.status_code is None:
             return {"status": 999, "content": output.description}
+        # if status code not 200
         if output.response.status_code != 200:
-            return {"status": output.response.status_code, "content": output.response.reason}
+            return {"status": output.response.status_code, "content": output.response}
         else:
             return {"status": output.response.status_code, "content": output.response.json()}

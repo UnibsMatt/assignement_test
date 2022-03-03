@@ -1,0 +1,6 @@
+FROM assign
+
+RUN pip install pytest pytest_cov pytest-mock==3.7.0
+
+CMD pytest --cov=api_manager api_manager/tests
+

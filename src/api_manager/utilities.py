@@ -29,4 +29,4 @@ def prettify_content(desired_output_dict: List[DesiredOutput]) -> str:
     pretty_out = ""
     for d in desired_output_dict:
         pretty_out += d.to_string()
-    return pretty_out if pretty_out != "" else f"Sorry no match found for {desired_output_dict[0].name}"
+    return pretty_out

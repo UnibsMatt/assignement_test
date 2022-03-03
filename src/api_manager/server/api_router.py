@@ -7,6 +7,7 @@ from api_manager.utilities import prettify_content, DesiredOutput
 
 account_api = Blueprint('api_routes', __name__)
 
+
 @account_api.route('/<name>', methods=['GET'])
 def step1(name: str):
     pretty_out = []

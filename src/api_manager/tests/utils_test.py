@@ -1,7 +1,8 @@
 from unittest import TestCase
 from api_manager.utilities import prettify_content, DesiredOutput
-from api_manager.api_endpoints import ReqMethod, RestCountry, RestContent, CountryCommon, Country, NationalizeContent, Nationalize
-from unittest.mock import MagicMock
+from api_manager.api_endpoints import ReqMethod, Nationalize
+from unittest.mock import MagicMock, patch
+from api_manager.server.api_router import step1
 
 
 class UtilitiesTest(TestCase):
@@ -45,5 +46,39 @@ class UtilitiesTest(TestCase):
         self.assertEqual(resp.get("status"), 200)
         results = nazionalize.extract_results(resp.get("content"))
         self.assertEqual(results.country, [])
-        print("asd")
 
+    @patch("api_manager.api_endpoints.ApiEndpoint.check_response")
+    def test_failed_connection(self, mock):
+        mock.return_value = {"status": 999, "content": "Generic error"}
+        out = step1("marco")
+        self.assertEqual(out, "Generic error")
+
+    @patch("api_manager.api_endpoints.ApiEndpoint.check_response")
+    def test_empty_country(self, mock):
+        mock.return_value = {"status": 200, "content": {"name": "marco", "country": []}}
+        out = step1("marco")
+        self.assertEqual(out, "Sorry no matching found for marco")
+
+    @patch("api_manager.api_endpoints.Nationalize.check_response")
+    def test_null_country(self, mock):
+        mock.return_value = {
+            "status": 200,
+            "content": {
+                "name": "marco",
+                "country": [
+
+                    {
+
+                        "country_id": "",
+                        "probability": 0.2
+                    },
+                    {
+                        "country_id": "IT",
+                        "probability": 0.2
+
+                    }
+                ]
+            }
+        }
+        out = step1("marco")
+        self.assertEqual(out, "It seems that marco is from Italy. But I\'m just guessing!<br>")
